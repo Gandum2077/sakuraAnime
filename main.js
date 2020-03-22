@@ -1,5 +1,6 @@
 require("/scripts/encode(gbk)");
 $include("/scripts/loading");
+$include("/scripts/ui/shadow");
 $include("/scripts/api/update");
 $include("/scripts/det");
 $include("/scripts/api/search");
@@ -15,6 +16,9 @@ $include("/scripts/ui/line");
 $include("/scripts/downloads");
 $include("/scripts/api/play");
 $include("/scripts/api/download");
+$include("/scripts/ui/header");
+$include("/scripts/searchView");
+$include("/scripts/ui/toast");
 
 $http.get({
   url: "http://www.imomoe.in/",
@@ -73,7 +77,8 @@ $http.get({
       }
     }
     var mydate = new Date();
-    var myddy = mydate.getDay();
+    var myddy = mydate.getDay() - 1;
+    if (myddy == -1) myddy = 6;
     switch (parseInt(myddy)) {
       case 0:
         $("sjbmenu").index = myddy;
@@ -104,6 +109,7 @@ $http.get({
         $("sjblist").data = date6;
         break;
     }
+    $("mainList").reload();
     for (a in r) {
       var b = r[a].match(/<li><ahref=.*?<\/p><\/li>/);
       var name = b[0]
@@ -123,7 +129,7 @@ $http.get({
       });
     }
     $("m2").data = iml;
-    $cache.set("recentUpdate",iml)
+    $cache.set("recentUpdate", iml);
   }
 });
 
@@ -131,20 +137,22 @@ $ui.render({
   props: {
     title: "樱花动漫",
     id: "window",
-    //debugging: true,
-    navButtons: [{
-      icon: "165",
-      handler: function() {
-        downloads();
-      }
-    }]
+    navBarHidden: true,
+    statusBarStyle: 0
   },
-  views: [View1,
-    View2,
-    View3,
+  views: [
+    {
+      type: "view",
+      layout: function(make, view) {
+        make.edges.equalTo(view.super.safeArea);
+      },
+      views: [Header, View1, View2, View3]
+    },
     Tabs,
     line
   ]
 });
 
-$("m2").data = $cache.get("recentUpdate")
+$("m2").data = $cache.get("recentUpdate");
+
+zfrefresh()

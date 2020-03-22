@@ -23,27 +23,6 @@
           }
         }
       }
-    },
-    {
-      "type" : "image",
-      "props" : {
-        "frame" : {
-          "y" : 405,
-          "x" : 334,
-          "width" : 100,
-          "height" : 100
-        },
-        "bgcolor" : {
-          "$type" : "$color",
-          "$props" : {
-            "red" : 238,
-            "alpha" : 1,
-            "blue" : 241,
-            "green" : 241
-          }
-        },
-        "id" : "image[0]"
-      }
     }
   ]
 }

@@ -4,19 +4,21 @@ var loadingview = {
   type: "",
   props: {
     id: "lodingView",
+    alpha:0,
     bgcolor: $color("clear")
   },
   layout: $layout.fill,
   views: [
     {
-      type: "blur",
+      type: "view",
       props: {
         style: 2,
-        radius: 20
+        bgcolor:$color("white")
       },
       layout: function(make, view) {
+        shadow(view, 0.8, 15, $size(0, 0), 20, "gray");
         make.center.equalTo(view.super);
-        make.size.equalTo(110);
+        make.size.equalTo(100); 
       },
       views: [
         {
@@ -27,12 +29,12 @@ var loadingview = {
           layout: $layout.fill,
           events: {
             draw: function start(view, ctx) {
-              ctx.strokeColor = $color("white");
-              ctx.setLineWidth(6);
+              ctx.strokeColor = $color("tint");
+              ctx.setLineWidth(5);
               ctx.addArc(
                 view.frame.width / 2,
                 view.frame.height / 2,
-                25,
+                20,
                 location,
                 Math.PI * 2 * 0.8 + location,
                 false
@@ -47,12 +49,12 @@ var loadingview = {
 };
 
 var loading = {
-  start: function(id) {
-    $(id).add(loadingview);
+  start: function() {
+    $ui.window.add(loadingview);
     timer = $timer.schedule({
-      interval: 0.01,
+      interval: 0.005,
       handler: function() {
-        location = location + 0.07;
+        location = location + 0.06;
         $("loadingCanvas")
           .runtimeValue()
           .invoke("setNeedsDisplay");
@@ -66,15 +68,14 @@ var loading = {
     });
   },
   stop: function() {
+    timer.invalidate();
     $ui.animate({
       duration: 0.4,
       animation: function() {
         $("lodingView").alpha = 0;
       },
-      completion: function() {
-        timer.invalidate();
+      completion: function() {     
         $("lodingView").remove();
-        $delay(0.5, () => $("lodingView").remove());
       }
     });
   }

@@ -1,13 +1,37 @@
 var Tabs = {
+  type: "view",
+  props: {
+    id: "tab"
+  },
+  layout: function(make, view) {
+    make.bottom.inset($device.isIphoneX == true ? 20 : 0);
+    if ($device.info.screen.width > 500) {
+      make.width.equalTo(500);
+    } else {
+      make.left.right.inset(0);
+    }
+    make.left.inset(0);
+    make.centerX.equalTo(view.super);
+    make.height.equalTo(50);
+  },
+  views: [
+    {
+      type: "blur",
+      props: {
+        style: 1
+      },
+      layout: $layout.fill
+    },
+    {
       type: "matrix",
       props: {
-        id: "tab",
         columns: 3,
         itemHeight: 60,
         spacing: 0,
         scrollEnabled: false,
-        bgcolor: $color("white"),
-        template: [{
+        bgcolor: $color("clear"),
+        template: [
+          {
             type: "image",
             props: {
               id: "menu_image",
@@ -32,13 +56,14 @@ var Tabs = {
             }
           }
         ],
-        data: [{
+        data: [
+          {
             menu_image: {
-              icon: $icon("102", $color("black"), $size(50, 50))
+              icon: $icon("102", $color("tint"), $size(50, 50))
             },
             menu_label: {
               text: "首页",
-              textColor: $color("black")
+              textColor: $color("tint")
             }
           },
           {
@@ -61,17 +86,7 @@ var Tabs = {
           }
         ]
       },
-      layout: function(make, view) {
-        make.bottom.inset($device.isIphoneX == true ? 20 : 0);
-        if ($device.info.screen.width > 500) {
-          make.width.equalTo(500);
-        } else {
-          make.left.right.inset(0);
-        }
-        make.left.inset(0);
-        make.centerX.equalTo(view.super);
-        make.height.equalTo(50);
-      },
+      layout: $layout.fill,
       events: {
         didSelect(sender, indexPath, data) {
           $("view1").hidden = true;
@@ -89,31 +104,43 @@ var Tabs = {
               $("view1").hidden = false;
               data[0].menu_image.icon = $icon(
                 "102",
-                $color("black"),
+                $color("tint"),
                 $size(50, 50)
               );
-              data[0].menu_label.textColor = $color("black");
+              data[0].menu_label.textColor = $color("tint");
+              $("headerLabel").text = "首页";
+              $("downloadBtn").hidden = false;
+              $("closeBtn").hidden = false;
               break;
             case 1:
               $("view2").hidden = false;
               data[1].menu_image.icon = $icon(
                 "062",
-                $color("black"),
+                $color("tint"),
                 $size(50, 50)
               );
-              data[1].menu_label.textColor = $color("black");
+              data[1].menu_label.textColor = $color("tint");
+              $("headerLabel").text = "我的追番";
+              $("downloadBtn").hidden = true;
+              $("closeBtn").hidden = true;
+              $app.tips("追番功能更新:\n1.今日更新的番剧有红色叹号标识\n2.明天更新的番剧会显示蓝色角标\n3.已更新但未查看的番剧有绿色角标显示未看集数\n4.长按单个番剧可更改分类")
               break;
             case 2:
               $("view3").hidden = false;
               data[2].menu_image.icon = $icon(
                 "002",
-                $color("black"),
+                $color("tint"),
                 $size(50, 50)
               );
-              data[2].menu_label.textColor = $color("black");
+              data[2].menu_label.textColor = $color("tint");
+              $("headerLabel").text = "设置";
+              $("downloadBtn").hidden = true;
+              $("closeBtn").hidden = true;
               break;
           }
           sender.data = data;
         }
       }
     }
+  ]
+};

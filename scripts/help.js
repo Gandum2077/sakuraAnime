@@ -1,4 +1,4 @@
-function dashang() {
+function contact() {
   $ui.push({
     props: {
       clipsToSafeArea: true,
@@ -62,7 +62,7 @@ function dashang() {
           {
             type: "label",
             props: {
-              text: "给作者投食",
+              text: "反馈问题",
               font: $font("bold", 18)
             },
             layout: (make, view) => {
@@ -72,24 +72,12 @@ function dashang() {
         ]
       },
       {
-        type: "image",
+        type: "markdown",
         props: {
-          src: "assets/zanshang.jpg"
+          content: $file.read("assets/help.md").string
         },
         layout: function(make, view) {
-          make.bottom.left.right.inset(0);
-          make.height.equalTo($device.info.screen.width);
-          make.width.equalTo($device.info.screen.width);
-        }
-      },
-      {
-        type: "text",
-        props: {
-          text: `写了挺久的脚本,如果你觉得这个脚本对你有帮助,欢迎支持鼓励一下作者,谢谢啦🙏`
-        },
-        layout: function(make, view) {
-          make.left.right.inset(0);
-          make.height.equalTo(50);
+          make.left.right.bottom.inset(0);
           make.top.equalTo($("header").bottom);
         }
       }

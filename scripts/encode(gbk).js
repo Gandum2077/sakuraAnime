@@ -24080,7 +24080,7 @@ GBKTable[0xFFE3]="A3FE";
 GBKTable[0xFFE4]="A957";
 GBKTable[0xFFE5]="A3A4";
 
-encodeURI=function(str) {
+ecodeURI=function(str) {
     if(str != null) {
         var result = "";
         for(var i=0;i<str.length;i++) {
@@ -24101,28 +24101,6 @@ encodeURI=function(str) {
     }
 };
     
-encodeURIComponent=function(str) {
-    if(str != null) {
-        var result = "";
-        for(var i=0;i<str.length;i++) {
-            var d = str.charCodeAt(i);
-            if(d >= 0x20 && d <= 0x7F) {
-                if( d==0x20 || (d>=0x22 && d<=0x26) || d==0x2B || d==0x2C|| d==0x2F|| (d>=0x3A && d<=0x3F) || d==0x40|| (d>=0x5B && d<=0x5E) || d==0x60|| (d>=0x7B && d<=0x7D) || d==0x7F ) {
-                    result += number2str(d);
-                } else {
-                    result += str.charAt(i);                
-                }
-            } else {
-                result += number2str(d);
-            }
-        }
-        return result;
-    } else {
-        return "";
-    }
-};
-
-
 number2str=function(d) 
 {
     var value = GBKTable[d];
